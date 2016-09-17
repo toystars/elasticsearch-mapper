@@ -1,0 +1,33 @@
+{
+  "name": "elasticsearch-mapper",
+  "version": "0.0.1",
+  "description": "Automatic mappings generator for ElasticSearch and MongoDB collections",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec",
+    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toystars/elasticsearch-mapper.git"
+  },
+  "keywords": [
+    "ElasticSearch",
+    "Mappings"
+  ],
+  "author": "Mustapha Babatunde Oluwaleke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/toystars/elasticsearch-mapper/issues"
+  },
+  "homepage": "https://github.com/toystars/elasticsearch-mapper#readme",
+  "engines": {
+    "node": ">=4.2.4"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.13",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.0.2"
+  }
+}
