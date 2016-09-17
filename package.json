@@ -29,5 +29,8 @@
     "coveralls": "^2.11.13",
     "istanbul": "^0.4.5",
     "mocha": "^3.0.2"
+  },
+  "dependencies": {
+    "underscore": "^1.8.3"
   }
 }
