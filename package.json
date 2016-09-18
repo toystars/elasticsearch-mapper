@@ -31,6 +31,6 @@
     "mocha": "^3.0.2"
   },
   "dependencies": {
-    "underscore": "^1.8.3"
+    "lodash": "^4.15.0"
   }
 }

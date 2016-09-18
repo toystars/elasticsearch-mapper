@@ -2,6 +2,40 @@
 
 var expect = require('chai').expect;
 var mapper = require('../index');
+var inspector = require('util');
+
+
+describe('#getDefaultConfig', function () {
+  it('should return default configuration', function () {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    expect(mapper.getDefaultConfig()).to.deep.equal({
+      "index.mapper.dynamic": false,
+      "analysis": {
+        "filter": {
+          "edgeNGram_filter": {
+            "type": "edgeNGram",
+            "min_gram": 3,
+            "max_gram": 15,
+            "token_chars": [ "letter", "digit", "punctuation", "symbol" ]
+          }
+        },
+        "analyzer": {
+          "edgeNGram_analyzer": {
+            "type": "custom",
+            "tokenizer": "standard",
+            "filter": [ "lowercase", "asciifolding", "edgeNGram_filter" ]
+          },
+          "whitespace_analyzer": {
+            "type": "custom",
+            "tokenizer": "whitespace",
+            "filter": [ "lowercase", "asciifolding" ]
+          }
+        }
+      }
+    });
+  });
+});
 
 
 describe('#clear', function () {
@@ -66,6 +100,111 @@ describe('#getIndex', function () {
     // clear mapper to remove left-over config
     mapper.clear();
     expect(mapper.getIndex('Persons')).to.be.undefined;
+  });
+
+});
+
+
+describe('#disableIndexLevelDynamicMappings and #enableIndexLevelDynamicMappings', function () {
+  it('should remove index.mapper.dynamic field from index settings which disables index level dynamic mappings settings completely', function () {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    var index = 'Animals';
+    mapper.index(index);
+    mapper.disableIndexLevelDynamicMappings(index);
+    expect(mapper.getIndex(index).settings.hasOwnProperty('index.mapper.dynamic')).to.be.false;
+  });
+
+  it('should add index.mapper.dynamic field to index settings which enables index level dynamic mappings settings', function () {
+    var index = 'Animals';
+    mapper.enableIndexLevelDynamicMappings(index);
+    expect(mapper.getIndex(index).settings.hasOwnProperty('index.mapper.dynamic')).to.be.true;
+  });
+
+});
+
+
+describe('#dynamicMapping', function () {
+  it('should enable or disable dynamic mappings in specified index', function () {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    var index = 'Animals';
+    mapper.index(index);
+    mapper.dynamicMapping(index, true);
+    expect(mapper.getIndex(index).settings['index.mapper.dynamic']).to.be.true;
+  });
+});
+
+
+
+describe('#typeDynamicMapping', function () {
+  it('should return false as default type dynamic mapping settings', function () {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    var index = 'Animals';
+    var type = 'dogs';
+    mapper.index(index);
+    var document = {
+      name: 'Bingo',
+      breed: 'German Shepard',
+      age: 15,
+      dateAcquired: new Date
+    };
+    mapper.mapFromDoc('Animals', type, document, []);
+    expect(mapper.getIndex(index).mappings[type].dynamic).to.equal('false');
+  });
+
+  it('should toggle dynamic mapping for specified index type', function () {
+    var index = 'Animals';
+    var type = 'dogs';
+    // disable index level dynamic mapping to avoid error
+    mapper.disableIndexLevelDynamicMappings(index);
+    mapper.typeDynamicMapping(index, type, true);
+    expect(mapper.getIndex(index).mappings[type].dynamic).to.equal('true');
+  });
+});
+
+
+
+describe('#configure', function () {
+  it('should add filter to the list of defaultConfig filters', function () {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    mapper.configure({
+      filters: {
+        nGram_filter: {
+          type: 'edgeNGram',
+          min_gram: 3,
+          max_gram: 15,
+          token_chars: [ 'letter', 'digit', 'punctuation', 'symbol' ]
+        }
+      }
+    });
+    expect(mapper.getDefaultConfig().analysis.filter['nGram_filter']).to.deep.equal({
+      type: 'edgeNGram',
+      min_gram: 3,
+      max_gram: 15,
+      token_chars: [ 'letter', 'digit', 'punctuation', 'symbol' ]
+    });
+  });
+
+  it('should add analyzer to the list of defaultConfig analyzers', function () {
+    // clear mapper to remove left-over config
+    // mapper.clear();
+    mapper.configure({
+      analyzers: {
+        sample_analyzer: {
+          type: 'custom',
+          tokenizer: 'whitespace',
+          filter: [ 'lowercase', 'asciifolding' ]
+        }
+      }
+    });
+    expect(mapper.getDefaultConfig().analysis.analyzer['sample_analyzer']).to.deep.equal({
+      type: 'custom',
+      tokenizer: 'whitespace',
+      filter: [ 'lowercase', 'asciifolding' ]
+    });
   });
 
 });
