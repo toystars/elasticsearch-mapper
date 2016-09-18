@@ -67,4 +67,65 @@ describe('#getIndex', function() {
     mapper.clear();
     expect(mapper.getIndex('Persons')).to.be.undefined;
   });
+
 });
+
+
+describe('#mapFromDoc', function() {
+
+  it('should return generated type mapping', function () {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    mapper.index('Animals');
+    var document = {
+      name: 'Bingo',
+      breed: 'German Shepard',
+      age: 15,
+      dateAcquired: new Date,
+      words: ['come', 'go', 'sit', 'jump', 'fetch', 'catch'],
+      profile: {
+        origin: 'Germany',
+        trueBreed: false
+      },
+      previousOwners: [{
+        name: 'Tunde',
+        age: 20,
+        profile: {
+          status: 'married',
+          gender: 'male',
+          dob: new Date,
+          active: true
+        },
+        tags: [1, 2, 3, 4]}]
+    };
+    var config = [];
+    expect(mapper.mapFromDoc('Animals', 'dogs', document, config)).to.deep.equal({
+      _all: {
+        enabled: false
+      },
+      dynamic: "false",
+      properties: {
+        name: {
+          type: 'string',
+          index_analyzer: 'edgeNGram_analyzer',
+          search_analyzer: 'whitespace_analyzer'
+        },
+        breed: {
+          type: 'string',
+          index_analyzer: 'edgeNGram_analyzer',
+          search_analyzer: 'whitespace_analyzer'
+        },
+        age: {
+          type: 'double',
+          index: 'no'
+        },
+        dateAcquired: {
+          type: 'date',
+          index: 'no'
+        }
+      }
+    });
+  });
+
+});
+
