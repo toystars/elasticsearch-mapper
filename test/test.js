@@ -105,6 +105,105 @@ describe('#getIndex', function () {
 });
 
 
+describe('#getMappings', function () {
+
+  it('should return mapping objects of specified index', function () {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    mapper.index('Animals');
+    expect(mapper.getMappings('Animals')).to.deep.equal({});
+  });
+
+  it('should return mapping objects of specified index', function () {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    mapper.index('Animals');
+    var document = {
+      name: 'Bingo',
+      species: 'Canis lupus familiaris',
+      age: 15,
+      dateAcquired: new Date,
+      words: ['come', 'go', 'sit', 'jump', 'fetch', 'catch']
+    };
+    var document2 = {
+      name: 'Oscar David',
+      species: 'Homo Sapiens',
+      height: '189cm',
+      dateOfBirth: new Date,
+      languages: ['English', 'Spanish']
+    };
+    var config = [];
+    mapper.mapFromDoc('Animals', 'dogs', document, config);
+    mapper.mapFromDoc('Animals', 'humans', document2, config);
+    expect(mapper.getMappings('Animals')).to.deep.equal({
+      dogs: {
+        _all: {
+          enabled: false
+        },
+        dynamic: 'false',
+        properties: {
+          name: {
+            type: 'string',
+            index_analyzer: 'edgeNGram_analyzer',
+            search_analyzer: 'whitespace_analyzer'
+          },
+          species: {
+            type: 'string',
+            index_analyzer: 'edgeNGram_analyzer',
+            search_analyzer: 'whitespace_analyzer'
+          },
+          age: {
+            type: 'double',
+            index: 'no'
+          },
+          dateAcquired: {
+            type: 'date',
+            index: 'no'
+          },
+          words: {
+            type: 'string',
+            index_analyzer: 'edgeNGram_analyzer',
+            search_analyzer: 'whitespace_analyzer'
+          }
+        }
+      },
+      humans: {
+        _all: {
+          enabled: false
+        },
+        dynamic: 'false',
+        properties: {
+          name: {
+            type: 'string',
+            index_analyzer: 'edgeNGram_analyzer',
+            search_analyzer: 'whitespace_analyzer'
+          },
+          species: {
+            type: 'string',
+            index_analyzer: 'edgeNGram_analyzer',
+            search_analyzer: 'whitespace_analyzer'
+          },
+          height: {
+            type: 'string',
+            index_analyzer: 'edgeNGram_analyzer',
+            search_analyzer: 'whitespace_analyzer'
+          },
+          dateOfBirth: {
+            type: 'date',
+            index: 'no'
+          },
+          languages: {
+            type: 'string',
+            index_analyzer: 'edgeNGram_analyzer',
+            search_analyzer: 'whitespace_analyzer'
+          }
+        }
+      }
+    });
+  });
+});
+
+
 describe('#disableIndexLevelDynamicMappings and #enableIndexLevelDynamicMappings', function () {
   it('should remove index.mapper.dynamic field from index settings which disables index level dynamic mappings settings completely', function () {
     // clear mapper to remove left-over config
