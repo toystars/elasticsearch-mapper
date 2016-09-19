@@ -308,3 +308,174 @@ describe('#mapFromDoc', function () {
 
 });
 
+
+
+describe('#mapFromDoc - user defined config', function () {
+
+  it('should return generated type mapping from user defined config', function () {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    mapper.configure({
+      filters: {
+        nGram_filter: {
+          type: 'edgeNGram',
+          min_gram: 3,
+          max_gram: 15,
+          token_chars: [ 'letter', 'digit', 'punctuation', 'symbol' ]
+        }
+      },
+      analyzers: {
+        nGram_analyzer: {
+          type: 'custom',
+          tokenizer: 'standard',
+          filter: [ 'lowercase', 'asciifolding', 'nGram_filter' ]
+        }
+      }
+    });
+    mapper.index('Animals');
+    var document = {
+      name: 'Bingo',
+      breed: 'German Shepard',
+      spec: 'Security',
+      age: 15,
+      dateAcquired: new Date,
+      words: ['come', 'go', 'sit', 'jump', 'fetch', 'catch'],
+      profile: {
+        origin: 'Germany',
+        colour: 'Orange',
+        trueBreed: false
+      },
+      previousOwners: [{
+        name: 'Tunde',
+        age: 20,
+        profile: {
+          status: 'married',
+          gender: 'male',
+          dob: new Date,
+          active: true
+        },
+        tags: [1, 2, 3, 4]
+      }]
+    };
+    var config = [{
+      field: 'previousOwners.profile.gender',
+      tokenize: false
+    }, {
+      field: 'name',
+      tokenize: false
+    }, {
+      field: 'profile.origin',
+      tokenize: true
+    }, {
+      field: 'profile.colour',
+      tokenize: true,
+      index: 'nGram_analyzer',
+      search: 'whitespace_analyzer'
+    }, {
+      field: 'words',
+      tokenize: false
+    }, {
+      field: 'breed',
+      tokenize: true,
+      index: 'nGram_analyzer',
+      search: 'whitespace_analyzer'
+    }];
+    mapper.mapFromDoc('Animals', 'dogs', document, config);
+    expect(mapper.getIndex('Animals').mappings['dogs']).to.deep.equal({
+      _all: {
+        enabled: false
+      },
+      dynamic: 'false',
+      properties: {
+        name: {
+          type: 'string',
+          index: 'not_analyzed'
+        },
+        breed: {
+          type: 'string',
+          index_analyzer: 'nGram_analyzer',
+          search_analyzer: 'whitespace_analyzer'
+        },
+        spec: {
+          type: 'string',
+          index: 'no'
+        },
+        age: {
+          type: 'double',
+          index: 'no'
+        },
+        dateAcquired: {
+          type: 'date',
+          index: 'no'
+        },
+        words: {
+          type: 'string',
+          index: 'not_analyzed'
+        },
+        profile: {
+          type: 'object',
+          properties: {
+            origin: {
+              type: 'string',
+              index_analyzer: 'edgeNGram_analyzer',
+              search_analyzer: 'whitespace_analyzer'
+            },
+            colour: {
+              type: 'string',
+              index_analyzer: 'nGram_analyzer',
+              search_analyzer: 'whitespace_analyzer'
+            },
+            trueBreed: {
+              type: 'boolean',
+              index: 'no'
+            }
+          }
+        },
+        previousOwners: {
+          type: 'nested',
+          properties: {
+            name: {
+              type: 'string',
+              index: 'no'
+            },
+            age: {
+              type: 'double',
+              index: 'no'
+            },
+            profile: {
+              type: 'object',
+              properties: {
+                status: {
+                  type: 'string',
+                  index: 'no'
+                },
+                gender: {
+                  type: 'string',
+                  index: 'not_analyzed'
+                },
+                dob: {
+                  type: 'date',
+                  index: 'no'
+                },
+                active: {
+                  type: 'boolean',
+                  index: 'no'
+                }
+              }
+            },
+            tags: {
+              type: 'double',
+              index: 'no'
+            }
+          }
+        }
+      }
+    });
+  });
+
+});
+
+
+
+
+
