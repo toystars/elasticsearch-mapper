@@ -204,6 +204,65 @@ describe('#getMappings', function () {
 });
 
 
+
+describe('#getSingleMapping', function () {
+
+  it('should return single mapping of specified index', function () {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    mapper.index('Animals');
+    expect(mapper.getSingleMapping('Animals', 'dogs')).to.be.undefined;
+  });
+
+  it('should return single mapping of specified index', function () {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    mapper.index('Animals');
+    var document = {
+      name: 'Bingo',
+      species: 'Canis lupus familiaris',
+      age: 15,
+      dateAcquired: new Date,
+      words: ['come', 'go', 'sit', 'jump', 'fetch', 'catch']
+    };
+    var config = [];
+    mapper.mapFromDoc('Animals', 'dogs', document, config);
+    expect(mapper.getSingleMapping('Animals', 'dogs')).to.deep.equal({
+      _all: {
+        enabled: false
+      },
+      dynamic: 'false',
+      properties: {
+        name: {
+          type: 'string',
+          index_analyzer: 'edgeNGram_analyzer',
+          search_analyzer: 'whitespace_analyzer'
+        },
+        species: {
+          type: 'string',
+          index_analyzer: 'edgeNGram_analyzer',
+          search_analyzer: 'whitespace_analyzer'
+        },
+        age: {
+          type: 'double',
+          index: 'no'
+        },
+        dateAcquired: {
+          type: 'date',
+          index: 'no'
+        },
+        words: {
+          type: 'string',
+          index_analyzer: 'edgeNGram_analyzer',
+          search_analyzer: 'whitespace_analyzer'
+        }
+      }
+    });
+  });
+});
+
+
+
 describe('#disableIndexLevelDynamicMappings and #enableIndexLevelDynamicMappings', function () {
   it('should remove index.mapper.dynamic field from index settings which disables index level dynamic mappings settings completely', function () {
     // clear mapper to remove left-over config
