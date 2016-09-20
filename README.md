@@ -57,7 +57,7 @@ mapper.mapFromDoc('Needs', 'foods', sampleFood);
 
 ```
 
-That's it! You how have a well defined index and types. This quick index and mappings creation process makes use of some default settings which works most of the time. To have a look of what was created in the index and mappings, you can fetch the index like below:
+That's it! You now have a well defined index and types. This quick index and mappings creation process makes use of some default settings which works most of the time. To have a look of what was created in the index and mappings, you can fetch the index like below:
 
 ```javascript
 var index = mapper.getIndex('Needs');
@@ -533,7 +533,7 @@ Add custom filters and analyzers.
 
 #### configOptions
 
-Required
+Required  
 Type: `object`
 
 Object containing analyzers and filters to add to package
@@ -546,7 +546,7 @@ Add an index to the mapper
 
 #### indexName
 
-Required
+Required  
 Type: `string`
 
 Name of index to register
@@ -559,7 +559,7 @@ Retrieve an already registered index
 
 #### indexName
 
-Required
+Required  
 Type: `string`
 
 Name of index to fetch
@@ -572,7 +572,7 @@ Enables index-level dynamic mapping. This disables type dynamic mappings togglin
 
 #### indexName
 
-Required
+Required  
 Type: `string`
 
 Name of index to enable index level dynamic mapping for
@@ -580,7 +580,7 @@ Name of index to enable index level dynamic mapping for
 
 #### status
 
-Type: `boolean`
+Type: `boolean`  
 Default: `false`
 
 If passed in, then index dynamic status will be set to passed in value, else defaults to false
@@ -592,7 +592,7 @@ Enables index-level dynamic mapping. This enables type dynamic mappings toggling
 
 #### indexName
 
-Required
+Required  
 Type: `string`
 
 Name of index to disable index level dynamic mapping for
@@ -604,7 +604,7 @@ Sets if dynamic mapping is enabled or disabled in the specified index. It also c
 
 #### indexName
 
-Required
+Required  
 Type: `string`
 
 Name of index to enable or disable dynamic mapping for
@@ -612,7 +612,7 @@ Name of index to enable or disable dynamic mapping for
 
 #### status
 
-Type: `boolean`
+Type: `boolean`  
 Default: `false`
 
 If passed in, then index dynamic status will be set to passed in value, else defaults to false
@@ -624,7 +624,7 @@ Sets dynamic mappings for type in specified index. This only works if index leve
 
 #### indexName
 
-Required
+Required  
 Type: `string`
 
 Name of index to get type for
@@ -632,7 +632,7 @@ Name of index to get type for
 
 #### type
 
-Required
+Required  
 Type: `string`
 
 Name of type to set dynamic mappings for
@@ -640,8 +640,8 @@ Name of type to set dynamic mappings for
 
 #### status
 
-Required
-Type: `boolean`
+Required  
+Type: `boolean`  
 Default: `false`
 
 If passed in, then type dynamic status will be set to passed in value, else defaults to false
@@ -654,7 +654,7 @@ Create a type and attach mapping object (generated from specified JSON document 
 
 #### indexName
 
-Required
+Required  
 Type: `string`
 
 Name of index to create type and mapping for
@@ -662,7 +662,7 @@ Name of index to create type and mapping for
 
 #### typeName
 
-Required
+Required  
 Type: `string`
 
 Name of type to create and attach mapping to
@@ -670,7 +670,7 @@ Name of type to create and attach mapping to
 
 #### document
 
-Required
+Required  
 Type: `object`
 
 Document to use for mapping generation
@@ -710,7 +710,7 @@ Returns all mappings registered under specified index
 
 #### indexName
 
-Required
+Required  
 Type: `string`
 
 Name of index to retrieve mappings from
@@ -723,15 +723,15 @@ Returns single mapping from specified index
 
 #### indexName
 
-Required
-Type: `string`
+Required   
+Type: `string`   
 
 Name of index to retrieve mapping from
 
 
 #### mappingName
 
-Required
+Required  
 Type: `string`
 
 Name of mapping to retrieve
