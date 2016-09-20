@@ -634,6 +634,3 @@ describe('#mapFromDoc - user defined config', function () {
 });
 
 
-
-
-
