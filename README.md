@@ -209,3 +209,37 @@ Expecting more steps? Sorry to disappoint you. That is all you need to get a wor
 ### Not so super simple set-up
 
 
+
+## Contributing
+
+Contributions are **welcome** and will be fully **credited**. Check [CONTRIBUTORS](CONTRIBUTORS.md) for more information.
+
+Contributions are accepted via Pull Requests on [Github](https://github.com/toystars/elasticsearch-mapper).
+
+
+### Pull Requests
+
+- **Document any change in behaviour** - Make sure the `README.md` and any other relevant documentation are kept up-to-date.
+
+- **Consider our release cycle** - We try to follow [SemVer v2.0.0](http://semver.org/). Randomly breaking public APIs is not an option.
+
+- **Create feature branches** - Don't ask us to pull from your master branch.
+
+- **One pull request per feature** - If you want to do more than one thing, send multiple pull requests.
+
+- **Send coherent history** - Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please [squash them](http://www.git-scm.com/book/en/v2/Git-Tools-Rewriting-History#Changing-Multiple-Commit-Messages) before submitting.
+
+
+## Issues
+
+Check issues for current issues.
+
+## Author
+
+[![Mustapha Babatunde](https://cloud.githubusercontent.com/assets/16062709/18664912/957ca39e-7f1c-11e6-9948-ce84832c8218.jpg)](https://twitter.com/iAmToystars)
+ 
+
+## License
+
+The MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
+
