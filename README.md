@@ -521,6 +521,10 @@ mapper.getIndex(); // will return the object below
 
 You will notice in the above index object that the mappings are generated based on what was passed as config for each field. It should also be noted that whenever configArray is passed to `mapFromDoc`, `elasticsearch-mapper` only work on the specified fields. All other fields will be set as `index: 'no'`. It should also be noticed that default values are applied to `index` and `search` if any of them is no defined. The index can then be sent to a running ElasticSearch cluster.
 
+## Important info
+
+Starting from ElasticSearch `2.0`, it is no longer possible to have fields with the same name, in different mappings but in the same index have different data type. What this means is that in the `Needs` index above, the name field in `foods` mapping and name field in `books` mapping can't have different data types, else an error will be thrown. Due to this, `elasticsearch-mapper` also enforces this rule and does not allow such fields to hold different data types. An error will thrown if that happens.
+
 ## APIs
 
 ### clear()
@@ -735,6 +739,16 @@ Required
 Type: `string`
 
 Name of mapping to retrieve
+
+
+## TODO
+
+- **addFilter(indexName, filterObject)** - To add user defined filter to specified index
+- **removeFilter(indexName, filterName)** - To remove filter from index. This will go deep into all analyzers and remove the filter from any analyzer where it is being used
+
+- **addAnalyzer(indexName, analyzerObject)** - To add user defined analyzer to specified index
+- **removeAnalyzer(indexName, analyzerName)** - To remove analyzer from index. THis will go deep to all mappings and change every field that uses the removed analyzer to the default `edgeNGram_analyzer` (index) and `whitespace_analyzer` (search) analyzer
+
 
 
 ## Contributing
