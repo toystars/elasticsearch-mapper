@@ -1,6 +1,6 @@
 {
   "name": "elasticsearch-mapper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Automatic mappings generator for ElasticSearch and MongoDB collections",
   "main": "index.js",
   "scripts": {
