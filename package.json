@@ -31,6 +31,7 @@
     "mocha": "^3.0.2"
   },
   "dependencies": {
-    "lodash": "^4.15.0"
+    "lodash": "^4.15.0",
+    "mongo-schema-gen": "0.0.2"
   }
 }

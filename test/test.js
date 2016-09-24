@@ -3,6 +3,8 @@
 var expect = require('chai').expect;
 var mapper = require('../index');
 var inspector = require('util');
+var mongoUrl = 'mongodb://localhost:27017/mongo-schema-gen';
+var schemaGen = require('mongo-schema-gen');
 
 
 describe('#getDefaultConfig', function () {
@@ -633,6 +635,130 @@ describe('#mapFromDoc - user defined config', function () {
 
 });
 
+
+describe('#mapFromCollection', function () {
+
+
+
+  before(function (done) {
+    if (!schemaGen.isConnected()) {
+      schemaGen.connect(mongoUrl, function (db) {
+        var Dog = db.collection('dogs');
+        Dog.insertOne({
+          name: 'Bingo',
+          breed: 'German Shepard',
+          age: 15,
+          dateAcquired: new Date,
+          words: ['come', 'go', 'sit', 'jump', 'fetch', 'catch'],
+          profile: {
+            origin: 'Germany',
+            trueBreed: false
+          },
+          previousOwners: [{
+            name: 'Tunde',
+            age: 20,
+            profile: {
+              status: 'married',
+              gender: 'male',
+              dob: new Date,
+              active: true
+            },
+            tags: [1, 2, 3, 4]
+          }]
+        }, function (error, result) {
+          done();
+        });
+      });
+    }
+  });
+
+  after(function () {
+    var db = schemaGen.getDB();
+    var Dog = db.collection('dogs');
+    Dog.remove({});
+    schemaGen.disconnect();
+  });
+
+  it('should return generated type mapping from specified mongoDB collection', function (done) {
+    // clear mapper to remove left-over config
+    mapper.clear();
+    var object = {
+      mongoUrl: mongoUrl,
+      collectionName: 'dogs',
+      config: []
+    };
+    mapper.index('Animals');
+    mapper.mapFromCollection('Animals', 'dogs', object, function (mapping) {
+      expect(mapping).to.deep.equal({
+        _all: {
+          enabled: false
+        },
+        dynamic: 'false',
+        properties: {
+          name: {
+            type: 'string',
+            analyzer: 'edgeNGram_analyzer',
+            search_analyzer: 'whitespace_analyzer'
+          },
+          breed: {
+            type: 'string',
+            analyzer: 'edgeNGram_analyzer',
+            search_analyzer: 'whitespace_analyzer'
+          },
+          age: {type: 'double', index: 'no'},
+          dateAcquired: {type: 'date', index: 'no'},
+          words: {
+            type: 'string',
+            analyzer: 'edgeNGram_analyzer',
+            search_analyzer: 'whitespace_analyzer'
+          },
+          profile: {
+            type: 'object',
+            properties: {
+              origin: {
+                type: 'string',
+                analyzer: 'edgeNGram_analyzer',
+                search_analyzer: 'whitespace_analyzer'
+              },
+              trueBreed: {type: 'boolean', index: 'no'}
+            }
+          },
+          previousOwners: {
+            type: 'nested',
+            properties: {
+              name: {
+                type: 'string',
+                analyzer: 'edgeNGram_analyzer',
+                search_analyzer: 'whitespace_analyzer'
+              },
+              age: {type: 'double', index: 'no'},
+              profile: {
+                type: 'object',
+                properties: {
+                  status: {
+                    type: 'string',
+                    analyzer: 'edgeNGram_analyzer',
+                    search_analyzer: 'whitespace_analyzer'
+                  },
+                  gender: {
+                    type: 'string',
+                    analyzer: 'edgeNGram_analyzer',
+                    search_analyzer: 'whitespace_analyzer'
+                  },
+                  dob: {type: 'date', index: 'no'},
+                  active: {type: 'boolean', index: 'no'}
+                }
+              },
+              tags: {type: 'double', index: 'no'}
+            }
+          }
+        }
+      });
+      done();
+    });
+  });
+
+});
 
 
 
