@@ -144,12 +144,12 @@ describe('#getMappings', function () {
         properties: {
           name: {
             type: 'string',
-            index_analyzer: 'edgeNGram_analyzer',
+            analyzer: 'edgeNGram_analyzer',
             search_analyzer: 'whitespace_analyzer'
           },
           species: {
             type: 'string',
-            index_analyzer: 'edgeNGram_analyzer',
+            analyzer: 'edgeNGram_analyzer',
             search_analyzer: 'whitespace_analyzer'
           },
           age: {
@@ -162,7 +162,7 @@ describe('#getMappings', function () {
           },
           words: {
             type: 'string',
-            index_analyzer: 'edgeNGram_analyzer',
+            analyzer: 'edgeNGram_analyzer',
             search_analyzer: 'whitespace_analyzer'
           }
         }
@@ -175,17 +175,17 @@ describe('#getMappings', function () {
         properties: {
           name: {
             type: 'string',
-            index_analyzer: 'edgeNGram_analyzer',
+            analyzer: 'edgeNGram_analyzer',
             search_analyzer: 'whitespace_analyzer'
           },
           species: {
             type: 'string',
-            index_analyzer: 'edgeNGram_analyzer',
+            analyzer: 'edgeNGram_analyzer',
             search_analyzer: 'whitespace_analyzer'
           },
           height: {
             type: 'string',
-            index_analyzer: 'edgeNGram_analyzer',
+            analyzer: 'edgeNGram_analyzer',
             search_analyzer: 'whitespace_analyzer'
           },
           dateOfBirth: {
@@ -194,7 +194,7 @@ describe('#getMappings', function () {
           },
           languages: {
             type: 'string',
-            index_analyzer: 'edgeNGram_analyzer',
+            analyzer: 'edgeNGram_analyzer',
             search_analyzer: 'whitespace_analyzer'
           }
         }
@@ -235,12 +235,12 @@ describe('#getSingleMapping', function () {
       properties: {
         name: {
           type: 'string',
-          index_analyzer: 'edgeNGram_analyzer',
+          analyzer: 'edgeNGram_analyzer',
           search_analyzer: 'whitespace_analyzer'
         },
         species: {
           type: 'string',
-          index_analyzer: 'edgeNGram_analyzer',
+          analyzer: 'edgeNGram_analyzer',
           search_analyzer: 'whitespace_analyzer'
         },
         age: {
@@ -253,7 +253,7 @@ describe('#getSingleMapping', function () {
         },
         words: {
           type: 'string',
-          index_analyzer: 'edgeNGram_analyzer',
+          analyzer: 'edgeNGram_analyzer',
           search_analyzer: 'whitespace_analyzer'
         }
       }
@@ -405,19 +405,19 @@ describe('#mapFromDoc', function () {
       properties: {
         name: {
           type: 'string',
-          index_analyzer: 'edgeNGram_analyzer',
+          analyzer: 'edgeNGram_analyzer',
           search_analyzer: 'whitespace_analyzer'
         },
         breed: {
           type: 'string',
-          index_analyzer: 'edgeNGram_analyzer',
+          analyzer: 'edgeNGram_analyzer',
           search_analyzer: 'whitespace_analyzer'
         },
         age: {type: 'double', index: 'no'},
         dateAcquired: {type: 'date', index: 'no'},
         words: {
           type: 'string',
-          index_analyzer: 'edgeNGram_analyzer',
+          analyzer: 'edgeNGram_analyzer',
           search_analyzer: 'whitespace_analyzer'
         },
         profile: {
@@ -425,7 +425,7 @@ describe('#mapFromDoc', function () {
           properties: {
             origin: {
               type: 'string',
-              index_analyzer: 'edgeNGram_analyzer',
+              analyzer: 'edgeNGram_analyzer',
               search_analyzer: 'whitespace_analyzer'
             },
             trueBreed: {type: 'boolean', index: 'no'}
@@ -436,7 +436,7 @@ describe('#mapFromDoc', function () {
           properties: {
             name: {
               type: 'string',
-              index_analyzer: 'edgeNGram_analyzer',
+              analyzer: 'edgeNGram_analyzer',
               search_analyzer: 'whitespace_analyzer'
             },
             age: {type: 'double', index: 'no'},
@@ -445,12 +445,12 @@ describe('#mapFromDoc', function () {
               properties: {
                 status: {
                   type: 'string',
-                  index_analyzer: 'edgeNGram_analyzer',
+                  analyzer: 'edgeNGram_analyzer',
                   search_analyzer: 'whitespace_analyzer'
                 },
                 gender: {
                   type: 'string',
-                  index_analyzer: 'edgeNGram_analyzer',
+                  analyzer: 'edgeNGram_analyzer',
                   search_analyzer: 'whitespace_analyzer'
                 },
                 dob: {type: 'date', index: 'no'},
@@ -551,7 +551,7 @@ describe('#mapFromDoc - user defined config', function () {
         },
         breed: {
           type: 'string',
-          index_analyzer: 'nGram_analyzer',
+          analyzer: 'nGram_analyzer',
           search_analyzer: 'whitespace_analyzer'
         },
         spec: {
@@ -575,12 +575,12 @@ describe('#mapFromDoc - user defined config', function () {
           properties: {
             origin: {
               type: 'string',
-              index_analyzer: 'edgeNGram_analyzer',
+              analyzer: 'edgeNGram_analyzer',
               search_analyzer: 'whitespace_analyzer'
             },
             colour: {
               type: 'string',
-              index_analyzer: 'nGram_analyzer',
+              analyzer: 'nGram_analyzer',
               search_analyzer: 'whitespace_analyzer'
             },
             trueBreed: {
