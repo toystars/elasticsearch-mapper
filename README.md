@@ -1,6 +1,6 @@
 # elasticsearch-mapper
 [![Build Status](https://travis-ci.org/toystars/elasticsearch-mapper.svg?branch=master)](https://travis-ci.org/toystars/elasticsearch-mapper) [![Coverage Status](https://coveralls.io/repos/github/toystars/elasticsearch-mapper/badge.svg?branch=master)](https://coveralls.io/github/toystars/elasticsearch-mapper?branch=master) [![npm](https://img.shields.io/npm/dt/elasticsearch-mapper.svg?maxAge=2592000)](https://www.npmjs.com/package/elasticsearch-mapper) [![npm](https://img.shields.io/npm/v/elasticsearch-mapper.svg?maxAge=2592000)](https://www.npmjs.com/package/elasticsearch-mapper)
-> Automatic mappings generator for ElasticSearch and MongoDB collections...
+> Automatic mappings generator for ElasticSearch, JSON documents and MongoDB collections...
 
 
 > Getting started with ElasticSearch is easy enough, and the powerful full-text search engine can do lots of stuff out of the box and this include dynamic mappings. Yes, you don't have to tell ElasticSearch what kind of data you want to index and it will handle it appropriately, well most of the time. But there are some occasions when you need to tell ElasticSearch the kind of data to expect so it can perform better (index and search) and not rely on too many generic fallbacks. That is where `elasticsearch-mapper` comes in.
@@ -56,6 +56,61 @@ mapper.mapFromDoc('Needs', 'books', sampleBook); // if the specified index has n
 mapper.mapFromDoc('Needs', 'foods', sampleFood);
 
 ```
+
+
+#### Mapping from mongoDB collection
+
+It is also possible to generate mappings directly from mongoDB collections. The step is as simple as generating mappings from JSON documents.
+
+```javascript
+var mapper = require('elasticsearch-mapper');
+
+// register the Needs index
+mapper.index('Needs');
+// register books and foods types under Needs index. This creates mappings for the respective types
+mapper.mapFromCollection(indexName, typeName, options, callBack); // if the specified index has not been registered beforehand, this will create the index on the fly and register the required mapping
+```
+
+The `mapFromCollection` function takes four arguments.
+
+- **indexName** - Name of ElasticSearch index mapping is to be registered to
+
+- **typeName** - ElasticSearch type name for mappings
+
+- **options** - Option object containing mongo connection values. A sample option is shown below. The config property is only meant for customization and can be left out of the object most times. Check [Advanced Set-up](#not-so-super-simple-set-up) for more about using the config array.
+
+```javascript
+var option = {
+  mongoUrl: mongoUrl,
+  collectionName: 'dogs',
+  config: []
+};
+```
+
+- **callBack** - CallBack function to be invoked with the generated mappings.
+
+Complete function call
+
+```javascript
+var mapper = require('elasticsearch-mapper');
+var indexName = 'Needs';
+var typeName = 'dogs';
+
+// register the Needs index
+mapper.index(indexName);
+
+var option = {
+  mongoUrl: mongoUrl,
+  collectionName: 'dogs'
+};
+
+mapper.mapFromCollecion(indexName, typeName, option, function (mapping) {
+    // mapping is already registered in specified index, but returned if needed for further usage
+    // do something with mapping
+})
+```
+
+
 
 That's it! You now have a well defined index and types. This quick index and mappings creation process makes use of some default settings which works most of the time. To have a look of what was created in the index and mappings, you can fetch the index like below:
 
