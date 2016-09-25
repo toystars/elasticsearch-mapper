@@ -707,6 +707,51 @@ If passed in, then type dynamic status will be set to passed in value, else defa
 
 
 
+### mapFromCollection(indexName, typeName, options, callBack)
+
+
+#### indexName
+
+Required  
+Type: `string`
+
+Name of index to create type and mapping for
+
+
+#### typeName
+
+Required  
+Type: `string`
+
+Name of type to create and attach mapping to
+
+
+#### options
+
+Required  
+Type: `object`
+
+object containing mongoDB parameters. Sample object is shown below
+
+
+```javascript
+var option = {
+  mongoUrl: mongoUrl,
+  collectionName: collectionName,
+  config: []
+};
+```
+
+
+#### callBack
+
+Required  
+Type: `function`  
+
+Callback to call with generated mapping.
+
+
+
 ### mapFromDoc(indexName, typeName, document, config)
 Create a type and attach mapping object (generated from specified JSON document and config)
 
@@ -811,6 +856,11 @@ Name of mapping to retrieve
 Contributions are **welcome** and will be fully **credited**. Check [CONTRIBUTORS](CONTRIBUTORS.md) for more information.
 
 Contributions are accepted via Pull Requests on [Github](https://github.com/toystars/elasticsearch-mapper).
+
+
+## Test
+
+Run tests with `npm run cover`
 
 
 ### Pull Requests
