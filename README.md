@@ -9,7 +9,7 @@
 
 ## Installation
 
-``` bash
+```bash
 $ npm install elasticsearch-mapper --save
 ```
 
@@ -46,7 +46,7 @@ var sampleFood = {
 
 With the sample data above, creating the `Needs` index and required types is insanely easy. The snippet below does just that:
 
-```javasript
+```javascript
 var mapper = require('elasticsearch-mapper');
 
 // register the Needs index
@@ -268,7 +268,7 @@ var mapper = require('elasticsearch-mapper');
 
 So you have a couple of filters you want to add. There are two ways of doing this. The first way is adding those filters and analyzers on package level, that is before registering any index. This ensures that all subsequent index you register will inherit the additional analyzers and filters. Below, we are adding two extra analyzers and a filter on the package level. This is done by calling the `configure` method.
 
-```javasript
+```javascript
 mapper.configure({
   filters: {
     "my_delimiter": {
@@ -300,7 +300,7 @@ To see the result of the snippet above, you can use `getDefaultConfig` method to
 
 Calling `getDefaultConfig` before adding custom analyzers and filers will return something similar to what is below
 
-```javasript
+```javascript
 mapper.getDefaultConfig();
 
 // will return the following JSON Data
@@ -335,7 +335,7 @@ mapper.getDefaultConfig();
 
 Calling `getDefaultConfig` after adding custom analyzers and filters will return the updated configurations.
 
-```javasript
+```javascript
 mapper.getDefaultConfig();
 
 // will return the following JSON Data
@@ -391,7 +391,7 @@ Now that we have defined custom analyzers, it is time to create type mappings fr
 In the `books` type mapping, we only want three fields to be indexed and searched. The fields are `name`, `ISBN`, and the `name` field in the `author` nested object. 
 In the `foods` type mapping, we only want all fields to be indexed, but in different ways. For example, we don't want the `supportFood` field to be analyzed, and we want to use different analyzers for other fields, except for the colour field which should not be indexed. All these are super easy to do in `elasticsearch-mapper`.
 
-```javasript
+```javascript
 // this assumes we continue with the newly added custom analyzers
 
 // sample data from mongoDB ollections
